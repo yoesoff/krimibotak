@@ -1,0 +1,29 @@
+{
+  "name": "krimibotak",
+  "version": "1.0.0",
+  "description": "krimibotak is a simple bot ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yoesoff/krimibotak.git"
+  },
+  "keywords": [
+    "Krimi",
+    "Botak",
+    "Gak",
+    "Berambut"
+  ],
+  "author": "Yusuf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoesoff/krimibotak/issues"
+  },
+  "homepage": "https://github.com/yoesoff/krimibotak#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "firebase": "^4.7.0"
+  }
+}
