@@ -25,5 +25,8 @@
   "dependencies": {
     "express": "^4.16.2",
     "firebase": "^4.7.0"
+  },
+  "engines": {
+    "node": ">=6.12.1"
   }
 }
