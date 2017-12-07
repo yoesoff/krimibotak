@@ -5,4 +5,7 @@ var firebase = require('firebase');
 
 app.get('/', (req, res) => res.send('Hello World Happy Express day!'))
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+const server = app.listen(process.env.PORT || 8081, () => {
+  const port = server.address().port;
+  console.log(`Example app listening on port ${port}!`)
+});
