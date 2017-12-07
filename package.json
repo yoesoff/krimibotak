@@ -4,7 +4,10 @@
   "description": "krimibotak is a simple bot ",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "e2e": "rm -rf node_modules/ &&  samples test build --deploy --timeout 20m --builderProject $GCLOUD_PROJECT",
+    "test": "samples test app",
+    "cover": "nyc --cache npm test; nyc report --reporter=html"
   },
   "repository": {
     "type": "git",
