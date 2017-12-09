@@ -3,7 +3,7 @@ const app = express()
 
 var firebase = require('firebase');
 
-app.get('/', (req, res) => res.send('Hello World Happy Express day!'))
+app.get('/', (req, res) => res.send('Hello World Happy Express day buddy!'))
 
 const server = app.listen(process.env.PORT || 8081, () => {
   const port = server.address().port;
