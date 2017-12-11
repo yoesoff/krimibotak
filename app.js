@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 
 var routes = require('./api/routes/testRoutes'); //importing route
 routes(app); //register the route
+var routes = require('./app/routes'); //importing route
+routes(app); //register the route
+
 
 const server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
