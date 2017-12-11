@@ -1,11 +1,18 @@
-const express = require('express')
-const app = express()
-
-var firebase = require('firebase');
+var express = require('express'),
+app = express(),
+port = process.env.PORT || 8081,
+firebase = require('firebase'),
+bodyParser = require('body-parser');
 
 app.get('/', (req, res) => res.send('Hello World Happy Express day buddy!'))
 
-const server = app.listen(process.env.PORT || 8081, () => {
-  const port = server.address().port;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+var routes = require('./api/routes/testRoutes'); //importing route
+routes(app); //register the route
+
+const server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
 });
