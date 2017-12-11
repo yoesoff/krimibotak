@@ -19,3 +19,13 @@ exports.postMessage = (req, res) => {
 
 }
 
+exports.getChannels = (req, res) => {
+    web.channels.list(function(err, info) {
+        if (err) {
+             console.log('Error:', err);
+             res.json( {error: err} );
+        } else {
+            res.json( {channels: info.channels} );     
+        }
+    });
+}
