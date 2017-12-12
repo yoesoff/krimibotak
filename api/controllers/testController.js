@@ -1,11 +1,5 @@
 'use strict';
-var firebase = require('firebase');
-firebase.initializeApp({
-    "apiKey": "AIzaSyAOlyehZC2hFx7VqNKAXUEAkdz_rLVgI4U",
-    "authDomain": "krimibotak.firebaseapp.com",
-    "databaseURL": "https://krimibotak.firebaseio.com"
-});
-
+var firebase = require('firebase'); // Has been initialize in app.js
 var database = firebase.database();
 var ref = database.ref("tests");
 

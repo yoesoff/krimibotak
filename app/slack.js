@@ -2,7 +2,8 @@
 
 var WebClient = require('@slack/client').WebClient;
 
-var bot_token ='xoxb-284609074786-tNgj7sZEazsLsGT2CmxA9ITW';
+var global =  require('../global');
+var bot_token = global.bot_token();
 
 var web = new WebClient(bot_token);
 
@@ -16,7 +17,6 @@ exports.postMessage = (req, res) => {
             res.json( {message: slack_res.message.text} );
         }
     });
-
 }
 
 exports.getChannels = (req, res) => {

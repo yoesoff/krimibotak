@@ -3,7 +3,14 @@
 var express = require('express'),
 app = express(),
 port = process.env.PORT || 8081,
-bodyParser = require('body-parser');
+bodyParser = require('body-parser'),
+firebase = require('firebase');
+
+firebase.initializeApp({
+    "apiKey": "AIzaSyAOlyehZC2hFx7VqNKAXUEAkdz_rLVgI4U",
+    "authDomain": "krimibotak.firebaseapp.com",
+    "databaseURL": "https://krimibotak.firebaseio.com"
+});
 
 app.get('/', (req, res) => res.send('Hello World Happy Express day buddy!'));
 
