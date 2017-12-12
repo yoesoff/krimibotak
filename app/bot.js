@@ -27,14 +27,16 @@ var messageProcessor = (msg) => { // Input is json
         return false;
     }
 
-    console.log('Message Processing:', msg); 
-
     var channel = msg.channel;
     var sender = msg.user;
     var receivers = getUsersFromMessage(msg.text);
-    console.log(receivers);
-  
-    console.log(firebase.thanks_set(sender, receivers));
+ 
+    var strlower_msg = msg.text.toLowerCase();
+    if ( strlower_msg.indexOf('thank')>=0) {
+      console.log(firebase.thanks_set(sender, receivers));
+    } else {
+      console.log("Does not contain thank");
+    }
 }
 
 exports.start = (req, res) => {
