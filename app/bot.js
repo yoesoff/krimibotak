@@ -33,9 +33,14 @@ var messageProcessor = (msg) => { // Input is json
  
     var strlower_msg = msg.text.toLowerCase();
     if ( strlower_msg.indexOf('thank')>=0) {
-      console.log(firebase.thanks_set(sender, receivers));
+        console.log(firebase.thanks_set(sender, receivers));
+    } else if (strlower_msg.indexOf('leaderboard')>=0) { 
+        // @TODO: Should be executed if bot is being called 
+        console.log(firebase.leaderboard());
+        rtm.sendMessage("10 users with the most karma points: " + firebase.leaderboard(), channel);
+        console.log('Top user sent to channel');
     } else {
-      console.log("Does not contain thank");
+      console.log("Does not contain thank or other recognized text");
     }
 }
 

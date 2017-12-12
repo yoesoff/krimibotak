@@ -16,19 +16,25 @@ exports.thanks_set = (sender, receivers) => {
     
     ref.once('value', function(snapshot) {
        if (snapshot.exists()) {
-         var ref_sender = database.ref('thanks/' + now + '/'  + sender);
-         ref_sender.once('value', function(snapshot) {
-            if (snapshot.exists()) {
-               for (var key in receivers) {
-                  console.log("Adding new child");
-                  ref_sender.push(receivers[key]); // /thanks/sender is there store the child node
-               }
-            } else {
-               for (var key in receivers) {
-                  console.log("Set sender and add new child");
-                  ref.child(sender).push(receivers[key]); // /thanks/sender is there store the child node
-               }
-            }
+          var ref_sender = database.ref('thanks/' + now + '/'  + sender);
+         
+          ref_sender.once('value', function(snapshot) {
+              if (snapshot.exists()) {
+                 console.log("total given thanks:", snapshot.numChildren());
+                 if (snapshot.numChildren() < 5) { 
+                     for (var key in receivers) {
+                        console.log("Adding new child");
+                        ref_sender.push(receivers[key]); // /thanks/sender is there store the child node
+                     }
+                 } else {
+                     console.log("5 karma points exceed!"); // Everyone has 5 karma points to give out per day.
+                 }
+              } else {
+                 for (var key in receivers) {
+                     console.log("Set sender and add new child");
+                     ref.child(sender).push(receivers[key]); // /thanks/sender is there store the child node
+                 }
+              }
          });
       } else {
          for (var key in receivers) {
@@ -39,4 +45,26 @@ exports.thanks_set = (sender, receivers) => {
     });
   
     return thanks_data;
+}
+
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        console.log(childSnapshot.key);
+        returnArr.push("{@"+ childSnapshot.key +"}");
+    });
+
+    return returnArr;
+};
+
+exports.leaderboard = () => {
+    var promises = ref.once('value', function(snapshot) {
+       if (snapshot.exists()) {
+           return snapshotToArray(snapshot); 
+       }
+       return [];
+    });
+
+    return promises;
 }
