@@ -22,6 +22,10 @@ var deleteIndex = function( arr, value ){
 }
 
 var getUsersFromMessage = (message) =>  {
+    if (typeof message == 'undefined' || message == '') {
+      return;
+    }
+
     message = message.split('<');
     var users = [];
     for (var i = 1; i < message.length; i++) {
@@ -35,16 +39,19 @@ var messageProcessor = (msg) => { // Input is json
     if ("message" !== msg.type){
         return false;
     }
+
     var channel = msg.channel;
-    console.log(channels.indexOf(channel));
-    if (channels.indexOf(channel) < 0 ) {
-        console.log("Bot does not present in this Channel");
-    }
+    //console.log(channels.indexOf(channel));
+  
+   /* if (channels.indexOf(channel) < 0 ) {*/
+        //console.log("Bot does not present in this Channel");
+    /*}*/
+
     var sender = msg.user;
     var receivers = getUsersFromMessage(msg.text);
     var strlower_msg = msg.text.toLowerCase();
     
-  if ( strlower_msg.indexOf('thank')>=0 ) {
+    if ( strlower_msg.indexOf('thank')>=0 ) {
         if (receivers.length <= 0) {
             rtm.sendMessage("Whom do you want to thank?", channel); 
             return;
@@ -52,8 +59,12 @@ var messageProcessor = (msg) => { // Input is json
         
         firebase.thanks_set(rtm, channel, sender, receivers);
 
-    } else if (strlower_msg.indexOf('leaderboard')>=0) { 
-    
+    } else if (strlower_msg.indexOf('leaderboard')>=0 && channel.charAt(0) == 'D' ) { // Check DM that contain leaderboard 
+        
+        // C, it's a public channel
+        // D, it's a DM with the user
+        // G, it's either a private channel or multi-person DM
+
         // @TODO: Should be executed if bot is being called 
         console.log(firebase.leaderboard());
         rtm.sendMessage("10 users with the most karma points: " + firebase.leaderboard(), channel);
@@ -133,8 +144,6 @@ exports.start = (req, res) => {
     });
 
     rtm.start();
-
-    //console.log(rtm);
 
     res.json({message: "Started"});
     return;
