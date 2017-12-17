@@ -110,6 +110,14 @@ exports.start = (req, res) => {
         deleteIndex(channels, data.channel.id);        
     });
 
+    // Deleted channel 
+    rtm.on(RTM_EVENTS.CHANNEL_DELETED, (data) => {
+        console.log(data);
+        console.log("Bot Left Channel  " + data.channel + " (" +  data.type + ") due to removed channel" );
+        deleteIndex(channels, data.channel.id);        
+    });
+
+
     // you need to wait for the client to fully connect before you can send messages
     rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
         let greeting= "Hello, KrimiBot daemon is running now! <" + ymdhis + ">";
