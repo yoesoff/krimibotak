@@ -141,3 +141,27 @@ exports.karma = (rtm, channel, sender) => {
         }
     });
 }
+
+exports.leaderboard= (rtm, channel) => {
+    var ref = database.ref('total/');
+    ref.once('value', function(snapshot) { 
+        if (snapshot.exists()) {
+           let users = []; 
+           let data_total = snapshot.val();
+           for (const user in data_total) {
+              users[user] = data_total[user].total_get;
+           }
+           
+           rtm.sendMessage("Top 10 users with the most karma points are: ", channel);
+           let loop = 1;
+           for (const user in users.sort().reverse()){
+              console.log(user);
+              rtm.sendMessage(loop +  `.${user}`, channel);
+              loop++;
+              if (loop > 11) {
+                  break;
+              }
+           }
+        }
+    });
+}

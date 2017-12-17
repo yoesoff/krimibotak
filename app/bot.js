@@ -64,7 +64,8 @@ var messageProcessor = (msg) => { // Input is json
     
         // check wheather bot being called or not
         if (receivers && receivers.indexOf(bot) >=0) {
-            console.log("Bot mentioned to check leader board");
+            console.log("Bot mentioned to check leaderboard");
+            firebase.leaderboard(rtm, channel);
             return;
         }
        
@@ -138,7 +139,7 @@ exports.start = (req, res) => {
 
     // you need to wait for the client to fully connect before you can send messages
     rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
-        let greeting= "Hello, KrimiBot daemon is running now! <" + ymdhis + ">";
+        let greeting= "Hello everyone, KrimiBot daemon is running now! <" + ymdhis + ">";
         for (const c of channels) {
             rtm.sendMessage(greeting, c);
             console.log(greeting);
