@@ -118,13 +118,26 @@ function snapshotToArray(snapshot) {
     return returnArr;
 };
 
-exports.leaderboard = () => {
-    var promises = ref.once('value', function(snapshot) {
-       if (snapshot.exists()) {
-           return snapshotToArray(snapshot); 
-       }
-       return [];
-    });
+exports.karma = (rtm, channel, sender) => {
+    var ref = database.ref('total/' + sender + '/total_get');
+    ref.once('value', function(snapshot) {
+        if (snapshot.exists()) {
+            console.log("Karma you got: " + snapshot.val());
+            let received = snapshot.val();
+            
+            var ref_given_today = database.ref('thanks/' + now + '/'  + sender);
+  
+            ref_given_today.once('value', function(snapshot) {
+                if (snapshot.exists()) {
+                    console.log(snapshot.val());
+                    let thanks_left = 5 - snapshot.numChildren();
+                    rtm.sendMessage(`karma points you have received are ${received} and the number of karma points you have left to give are ${thanks_left}`, channel);
+                }   
 
-    return promises;
+           });
+
+        } else {
+            rtm.sendMessage("Ups not found, data is still empty! ", channel);
+        }
+    });
 }

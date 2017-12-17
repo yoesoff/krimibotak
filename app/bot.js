@@ -13,6 +13,7 @@ var bot_token = global.bot_token();
 
 var rtm = new RtmClient(bot_token);
 
+let bot;
 let channels=[];
 let cgeneral;
 
@@ -59,17 +60,23 @@ var messageProcessor = (msg) => { // Input is json
         
         firebase.thanks_set(rtm, channel, sender, receivers);
 
-    } else if (strlower_msg.indexOf('leaderboard')>=0 && channel.charAt(0) == 'D' ) { // Check DM that contain leaderboard 
+    } else if (strlower_msg.indexOf('leaderboard')>=0) {
+    
+        // check wheather bot being called or not
+        if (receivers && receivers.indexOf(bot) >=0) {
+            console.log("Bot mentioned to check leader board");
+            return;
+        }
+       
+    } else if (strlower_msg.indexOf('karma')>=0 && channel.charAt(0) == 'D' ) { // Check DM that contain leaderboard 
         
         // C, it's a public channel
         // D, it's a DM with the user
         // G, it's either a private channel or multi-person DM
 
-        // @TODO: Should be executed if bot is being called 
-        console.log(firebase.leaderboard());
-        rtm.sendMessage("10 users with the most karma points: " + firebase.leaderboard(), channel);
-        console.log('Top users sent to channel');
-    
+        // DM Only 
+        firebase.karma(rtm, channel, sender);
+            
     } else {
         // To test the bot
         /*if (msg.text.indexOf("hello")) {*/
@@ -92,8 +99,8 @@ exports.start = (req, res) => {
     // The client will emit an RTM.AUTHENTICATED event on successful connection, with the `rtm.start` payload
     rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
       
-        //console.log( rtmStartData.channels ); // List of channels
-
+        bot = rtmStartData.self.id ; // List of channels
+        console.log("Bot: " . bot);
         console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}`);
         for (const c of rtmStartData.channels) {
             if (c.is_member) { 
