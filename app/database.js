@@ -156,7 +156,7 @@ exports.leaderboard= (rtm, channel) => {
            let loop = 1;
            for (const user in users.sort().reverse()){
               console.log(user);
-              rtm.sendMessage(loop +  `.${user}`, channel);
+              rtm.sendMessage(loop +  `.<@${user}>`, channel);
               loop++;
               if (loop > 11) {
                   break;
